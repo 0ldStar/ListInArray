@@ -3,14 +3,19 @@
 FLAGS = -Wall -Werror=format-security -Wextra
 CC = g++
 
-all: list main
-	$(CC) $(FLAGS) main.o list.o -o build/menu
+all: buildDir list main menu
+	$(CC) $(FLAGS) main.o list.o menu.o -o build/menu
+
+buildDir:
+	mkdir -p build
 main: src/main.cpp
 	$(CC) $(FLAGS) -c src/main.cpp -o main.o
 list: src/ListInArray.cpp
 	$(CC) $(FLAGS) -c src/ListInArray.cpp -o list.o
+menu: src/menu.cpp
+	$(CC) $(FLAGS) -c src/menu.cpp -o menu.o
 clean:
-	rm -rf *.o *.a *.so *.out ../build/*
+	rm -rf *.o *.a *.so *.out build/*
 run:
 	./build/menu
 rebuild:

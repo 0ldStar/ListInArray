@@ -35,7 +35,7 @@ public:
 
         E &operator*() const { return ptr[ind].data; }
 
-        const pointer operator->() { return &ptr[ind]; }
+        pointer operator->() { return &ptr[ind]; }
 
         const MyIterator &operator++() {
             ind = ptr[ind].nextInd;
@@ -63,7 +63,7 @@ public:
         pointer ptr;
     };
 
-    T &operator[](unsigned ind);
+    T operator[](unsigned ind);
 
     ListInArray();
 
@@ -79,15 +79,15 @@ public:
 
     int findElement(T elem);
 
-    bool changeValue(T data, int ind);
+    bool changeValue(T data, unsigned ind);
 
     bool push(T _data);
 
-    int push(T _data, int ind);
+    int push(T _data, unsigned ind);
 
     bool pop(T _data);
 
-    bool popInd(int ind);
+    bool popInd(unsigned ind);
 
     MyIterator<T> begin() { return MyIterator<T>(array, sBegin); }
 
@@ -98,13 +98,13 @@ public:
     void printArray();
 
 private:
-    node<T> *getElementById(int id);
+    node<T> *getElementById(unsigned id);
 
     void resize();
 
     node<T> *getNextElement(node<T> *node);
 
-    void initData();
+    T getDefaultValue();
 
     int sBegin;
     int sEnd;

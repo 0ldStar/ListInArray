@@ -7,9 +7,6 @@
 
 template<typename T>
 ListInArray<T>::ListInArray() {
-    sBegin = -1;
-    sEnd = -1;
-    fBegin = 0;
     array = new node<T>[START_LENGTH];
     arrayLen = START_LENGTH;
     clear();
@@ -25,15 +22,15 @@ void ListInArray<T>::print() {
 template<typename T>
 void ListInArray<T>::printArray() {
     std::cout << "sBegin = " << sBegin << " sEnd = " << sEnd << " fBegin = " << fBegin << std::endl;
-    for (int i = 0; i < arrayLen; ++i) {
+    for (unsigned i = 0; i < arrayLen; ++i) {
         std::cout << array[i].data << " ";
     }
     std::cout << std::endl;
-    for (int i = 0; i < arrayLen; ++i) {
+    for (unsigned i = 0; i < arrayLen; ++i) {
         std::cout << array[i].nextInd << " ";
     }
     std::cout << std::endl;
-    for (int i = 0; i < arrayLen; ++i) {
+    for (unsigned i = 0; i < arrayLen; ++i) {
         std::cout << array[i].prevInd << " ";
     }
     std::cout << std::endl;
@@ -41,26 +38,13 @@ void ListInArray<T>::printArray() {
 }
 
 template<>
-void ListInArray<int>::initData() {
-    for (int i = 0; i < START_LENGTH; ++i) {
-        array[i].data = 0;
-    }
-}
+int ListInArray<int>::getDefaultValue() { return 0; }
 
 template<>
-void ListInArray<char>::initData() {
-    for (int i = 0; i < START_LENGTH; ++i) {
-        array[i].data = ' ';
-    }
-}
+char ListInArray<char>::getDefaultValue() { return ' '; }
 
 template<>
-void ListInArray<float>::initData() {
-    for (int i = 0; i < START_LENGTH; ++i) {
-        array[i].data = 0.0;
-    }
-}
-
+float ListInArray<float>::getDefaultValue() { return 0.0; }
 
 template<typename T>
 ListInArray<T>::ListInArray(ListInArray<T> &list) {
@@ -70,11 +54,8 @@ ListInArray<T>::ListInArray(ListInArray<T> &list) {
     list.arrayLen = arrayLen;
     list.elementCount = elementCount;
     list.array = new node<T>[arrayLen];
-    for (int i = 0; i < arrayLen; ++i) {
-        list.array[i].nextInd = array[i].nextInd;
-        list.array[i].prevInd = array[i].prevInd;
-        list.array[i].data = array[i].data;
-    }
+    for (unsigned i = 0; i < arrayLen; ++i)
+        list.array[i] = array[i];
 }
 
 template<typename T>
@@ -90,14 +71,18 @@ bool ListInArray<T>::isEmpty() {
 template<typename T>
 void ListInArray<T>::clear() {
     elementCount = 0;
-    for (int i = 0; i < arrayLen; ++i) {
+    sBegin = -1;
+    sEnd = -1;
+    fBegin = 0;
+    for (unsigned i = 0; i < arrayLen; ++i) {
         array[i].nextInd = i + 1;
         array[i].prevInd = i - 1;
     }
     array[0].prevInd = -1;
     array[arrayLen - 1].nextInd = -1;
-    //todo change begin index
-    initData();
+    for (unsigned i = 0; i < START_LENGTH; ++i) {
+        array[i].data = getDefaultValue();
+    }
 }
 
 template<typename T>
@@ -106,7 +91,7 @@ unsigned ListInArray<T>::getLength() { return elementCount; }
 template<typename T>
 int ListInArray<T>::findElement(T elem) {
     int foundedInd = -1;
-    int j = 0;
+    unsigned j = 0;
     for (auto i = begin(); i != end(); i++, j++) {
         if (i->data == elem) {
             foundedInd = j;
@@ -144,7 +129,7 @@ bool ListInArray<T>::push(T _data) {
 
 
 template<typename T>
-int ListInArray<T>::push(T _data, int ind) {
+int ListInArray<T>::push(T _data, unsigned ind) {
     if (ind == 0) {
         return push(_data);
     }
@@ -152,7 +137,7 @@ int ListInArray<T>::push(T _data, int ind) {
         int tmp = array[fBegin].nextInd;
         int curInd = fBegin;
         array[curInd].data = _data;
-        int j = 0;
+        unsigned j = 0;
         for (auto it = begin(); it != end(); it++, j++) {
             if (j == ind) {
                 array[curInd].nextInd = it.ind;
@@ -175,15 +160,12 @@ template<typename T>
 void ListInArray<T>::resize() {
     if (elementCount == arrayLen - 1) {
         node<T> *tmpArr = new node<T>[arrayLen * 2];
-        for (int i = 0; i < arrayLen; ++i) {
-            tmpArr[i].nextInd = array[i].nextInd;
-            tmpArr[i].prevInd = array[i].prevInd;
-            tmpArr[i].data = array[i].data;
-        }
+        for (unsigned i = 0; i < arrayLen; ++i)
+            tmpArr[i] = array[i];
         delete[] array;
         array = tmpArr;
 
-        for (int i = arrayLen; i < 2 * arrayLen; ++i) {
+        for (unsigned i = arrayLen; i < 2 * arrayLen; ++i) {
             array[i].nextInd = i + 1;
             array[i].prevInd = i - 1;
         }
@@ -212,9 +194,9 @@ bool ListInArray<T>::pop(T _data) {
 }
 
 template<typename T>
-bool ListInArray<T>::popInd(int ind) {
+bool ListInArray<T>::popInd(unsigned ind) {
     for (auto i = begin(); i != end(); i++) {
-        if (i.ind == ind) {
+        if (i.ind == (int) ind) {
             int nInd = i->nextInd;
             int pInd = i->prevInd;
             int cInd = i.ind;
@@ -230,8 +212,8 @@ bool ListInArray<T>::popInd(int ind) {
 }
 
 template<typename T>
-T &ListInArray<T>::operator[](unsigned ind) {
-    T data;
+T ListInArray<T>::operator[](unsigned ind) {
+    T data = getDefaultValue();
     unsigned j = 0;
     for (auto i = begin(); i != end(); i++, j++) {
         if (j == ind) {
@@ -242,7 +224,7 @@ T &ListInArray<T>::operator[](unsigned ind) {
 }
 
 template<typename T>
-bool ListInArray<T>::changeValue(T data, int ind) {
+bool ListInArray<T>::changeValue(T data, unsigned ind) {
     unsigned j = 0;
     for (auto i = begin(); i != end(); i++, j++) {
         if (j == ind) {
@@ -253,18 +235,21 @@ bool ListInArray<T>::changeValue(T data, int ind) {
     return false;
 }
 
-template<typename T>
-node<T> *ListInArray<T>::getElementById(int id) { //todo need to optimize
-    if (sBegin == -1) return nullptr;
-    int next = sBegin;
-    node<T> *tmp = &array[sBegin];
-    while (next != -1) {
-        if (next == id) break;
-        tmp = &array[tmp->nextInd];
-        next = tmp->nextInd;
-    }
-    return tmp;
-}
+//template<typename T>
+//node<T> *ListInArray<T>::getElementById(unsigned id) { //todo need to optimize
+//    if (sBegin == -1) return nullptr;
+//    int next = sBegin;
+//    node<T> *tmp = nullptr;
+//    while (next != -1) {
+//        if (next == (int) id) break;
+//        tmp = &array[tmp->nextInd];
+//        next = tmp->nextInd;
+//    }
+//    if (!tmp) {
+//        tmp = new node<T>
+//    }
+//    return tmp;
+//}
 
 template<typename T>
 
