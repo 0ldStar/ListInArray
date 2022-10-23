@@ -26,8 +26,12 @@ void printFillMenu() {
                 fillValue();
                 return;
             case 3:
-                fillValueByInd();
-                return;
+                if (!list.isEmpty()) {
+                    fillValueByInd();
+                    return;
+                } else {
+                    std::cout << "List is empty." << std::endl;
+                }
             default:
                 break;
         }
