@@ -48,14 +48,14 @@ float ListInArray<float>::getDefaultValue() { return 0.0; }
 
 template<typename T>
 ListInArray<T>::ListInArray(ListInArray<T> &list) {
-    list.sBegin = sBegin;
-    list.sEnd = sEnd;
-    list.fBegin = fBegin;
-    list.arrayLen = arrayLen;
-    list.elementCount = elementCount;
-    list.array = new node<T>[arrayLen];
-    for (unsigned i = 0; i < arrayLen; ++i)
-        list.array[i] = array[i];
+    sBegin = list.sBegin;
+    sEnd = list.sEnd;
+    fBegin = list.fBegin;
+    arrayLen = list.arrayLen;
+    elementCount = list.elementCount;
+    array = new node<T>[arrayLen];
+    for (unsigned i = 0; i < list.arrayLen; ++i)
+        array[i] = list.array[i];
 }
 
 template<typename T>
@@ -74,6 +74,7 @@ void ListInArray<T>::clear() {
     sBegin = -1;
     sEnd = -1;
     fBegin = 0;
+    laboriousness = 0;
     for (unsigned i = 0; i < arrayLen; ++i) {
         array[i].nextInd = i + 1;
         array[i].prevInd = i - 1;
@@ -92,7 +93,9 @@ template<typename T>
 int ListInArray<T>::findElement(T elem) {
     int foundedInd = -1;
     unsigned j = 0;
+    laboriousness = 0;
     for (auto i = begin(); i != end(); i++, j++) {
+        laboriousness++;
         if (i->data == elem) {
             foundedInd = j;
             break;
@@ -130,7 +133,9 @@ bool ListInArray<T>::push(T _data) {
 
 template<typename T>
 int ListInArray<T>::push(T _data, unsigned ind) {
+    laboriousness = 0;
     if (ind == 0) {
+        laboriousness++;
         return push(_data);
     }
     if (fBegin != -1 && ind < elementCount) {
@@ -139,6 +144,7 @@ int ListInArray<T>::push(T _data, unsigned ind) {
         array[curInd].data = _data;
         unsigned j = 0;
         for (auto it = begin(); it != end(); it++, j++) {
+            laboriousness++;
             if (j == ind) {
                 array[curInd].nextInd = it.ind;
                 array[curInd].prevInd = it->prevInd;
@@ -208,7 +214,9 @@ bool ListInArray<T>::pop(T _data) {
 template<typename T>
 bool ListInArray<T>::popInd(unsigned ind) {
     unsigned j = 0;
+    laboriousness = 0;
     for (auto i = begin(); i != end(); i++, j++) {
+        laboriousness++;
         if (j == ind) {
             changeLinks(i);
             return true;
@@ -241,22 +249,6 @@ bool ListInArray<T>::changeValue(T data, unsigned ind) {
     return false;
 }
 
-//template<typename T>
-//node<T> *ListInArray<T>::getElementById(unsigned id) { //todo need to optimize
-//    if (sBegin == -1) return nullptr;
-//    int next = sBegin;
-//    node<T> *tmp = nullptr;
-//    while (next != -1) {
-//        if (next == (int) id) break;
-//        tmp = &array[tmp->nextInd];
-//        next = tmp->nextInd;
-//    }
-//    if (!tmp) {
-//        tmp = new node<T>
-//    }
-//    return tmp;
-//}
-
 template<typename T>
 
 node<T> *ListInArray<T>::getNextElement(node<T> *node) {
@@ -264,6 +256,9 @@ node<T> *ListInArray<T>::getNextElement(node<T> *node) {
     if (!node || ind == -1)return nullptr;
     return &array[ind];
 }
+
+template<typename T>
+unsigned ListInArray<T>::getLaboriousness() { return laboriousness; }
 
 template
 class ListInArray<int>;

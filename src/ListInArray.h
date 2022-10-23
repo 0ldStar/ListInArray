@@ -93,6 +93,8 @@ public:
 
     MyIterator<T> end() { return MyIterator<T>(array, -1); }
 
+    unsigned getLaboriousness();
+
     void print();
 
     void printArray();
@@ -100,7 +102,7 @@ public:
 private:
     node<T> *getElementById(unsigned id);
 
-    void changeLinks(MyIterator<T>& i);
+    void changeLinks(MyIterator<T> &i);
 
     void resize();
 
@@ -108,6 +110,7 @@ private:
 
     T getDefaultValue();
 
+    unsigned laboriousness;
     int sBegin;
     int sEnd;
     int fBegin;
