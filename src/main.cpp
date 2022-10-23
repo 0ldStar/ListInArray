@@ -1,9 +1,10 @@
 #include "menu.h"
 
-//todo [9 1] is not working
+//todo [1 1 8 1] is not working
 ListInArray<int> list;
 
 int main() {
+    system("clear");
     int command = -1;
     while (command != 10) {
         printf("\tThis is interactive menu for List in Array structure.\n"
@@ -31,25 +32,43 @@ int main() {
                 std::cout << "List len = " << list.getLength() << std::endl;
                 break;
             case 3:
-                list.clear();
+                if (!list.isEmpty())
+                    list.clear();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             case 4:
-                std::cout << "Is list empty?" << (list.isEmpty() ? "true" : "false") << std::endl;
+                std::cout << "Is list empty? " << (list.isEmpty() ? "True" : "False") << std::endl;
                 break;
             case 5:
-                checkValue();
+                if (!list.isEmpty())
+                    checkValue();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             case 6:
-                getElementMenu();
+                if (!list.isEmpty())
+                    getElementMenu();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             case 7:
-                changeValue();
+                if (!list.isEmpty())
+                    changeValue();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             case 8:
-                deleteValueMenu();
+                if (!list.isEmpty())
+                    deleteValueMenu();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             case 9:
-                list.print();
+                if (!list.isEmpty())
+                    list.print();
+                else
+                    std::cout << "List is empty." << std::endl;
                 break;
             default:
                 break;

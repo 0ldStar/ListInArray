@@ -100,6 +100,8 @@ public:
 private:
     node<T> *getElementById(unsigned id);
 
+    void changeLinks(MyIterator<T>& i);
+
     void resize();
 
     node<T> *getNextElement(node<T> *node);

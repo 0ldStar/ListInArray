@@ -1,11 +1,10 @@
-.PHONY: all clean rebuild
+.PHONY: all clean rebuild buildDir run rebuild
 
 FLAGS = -Wall -Werror=format-security -Wextra
 CC = g++
 
 all: buildDir list main menu
 	$(CC) $(FLAGS) main.o list.o menu.o -o build/menu
-
 buildDir:
 	mkdir -p build
 main: src/main.cpp
@@ -16,7 +15,7 @@ menu: src/menu.cpp
 	$(CC) $(FLAGS) -c src/menu.cpp -o menu.o
 clean:
 	rm -rf *.o *.a *.so *.out build/*
-run:
+run: all
 	./build/menu
 rebuild:
 	$(MAKE) clean

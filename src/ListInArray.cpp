@@ -176,17 +176,29 @@ void ListInArray<T>::resize() {
 }
 
 template<typename T>
+void ListInArray<T>::changeLinks(MyIterator<T> &i) {
+    int nInd = i->nextInd;
+    int pInd = i->prevInd;
+    int cInd = i.ind;
+    if (pInd != -1)
+        array[pInd].nextInd = nInd;
+    else
+        sBegin = nInd;
+    if (nInd != -1)
+        array[nInd].prevInd = pInd;
+
+    array[cInd].prevInd = -1;
+    array[cInd].nextInd = fBegin;
+    fBegin = cInd;
+    elementCount--;
+
+}
+
+template<typename T>
 bool ListInArray<T>::pop(T _data) {
     for (auto i = begin(); i != end(); i++) {
         if (*i == _data) {
-            int nInd = i->nextInd;
-            int pInd = i->prevInd;
-            int cInd = i.ind;
-            array[pInd].nextInd = nInd;
-            array[nInd].prevInd = pInd;
-            array[cInd].prevInd = -1;
-            array[cInd].nextInd = fBegin;
-            fBegin = cInd;
+            changeLinks(i);
             return true;
         }
     }
@@ -195,16 +207,10 @@ bool ListInArray<T>::pop(T _data) {
 
 template<typename T>
 bool ListInArray<T>::popInd(unsigned ind) {
-    for (auto i = begin(); i != end(); i++) {
-        if (i.ind == (int) ind) {
-            int nInd = i->nextInd;
-            int pInd = i->prevInd;
-            int cInd = i.ind;
-            array[pInd].nextInd = nInd;
-            array[nInd].prevInd = pInd;
-            array[cInd].prevInd = -1;
-            array[cInd].nextInd = fBegin;
-            fBegin = cInd;
+    unsigned j = 0;
+    for (auto i = begin(); i != end(); i++, j++) {
+        if (j == ind) {
+            changeLinks(i);
             return true;
         }
     }

@@ -36,7 +36,7 @@ void printFillMenu() {
 
 void getElementMenu() {
     int ind = -1;
-    while (0 < ind || ind > (int) (list.getLength() - 1)) {
+    while (0 > ind || ind > (int) (list.getLength() - 1)) {
         std::cout << "Enter index[0:" << list.getLength() - 1 << "]:";
         std::cin >> ind;
         system("clear");
@@ -63,7 +63,7 @@ void fillValueByInd() {
     int num, ind = -1;
     std::cout << "Enter value:";
     std::cin >> num;
-    while (0 < ind || ind > (int) (list.getLength() - 1)) {
+    while (0 > ind || ind > (int) (list.getLength() - 1)) {
         std::cout << std::endl << "Enter index[0:" << list.getLength() - 1 << "]:";
         std::cin >> ind;
         system("clear");
@@ -88,7 +88,7 @@ void changeValue() {
     int num, ind = -1;
     std::cout << "Enter value:";
     std::cin >> num;
-    while (0 < ind || ind > (int) (list.getLength() - 1)) {
+    while (0 > ind || ind > (int) (list.getLength() - 1)) {
         std::cout << std::endl << "Enter index[0:" << list.getLength() - 1 << "]:";
         std::cin >> ind;
         system("clear");
@@ -107,7 +107,7 @@ void deleteValue() {
 
 void deleteValueByInd() {
     int ind = -1;
-    while (0 < ind || ind > (int) (list.getLength() - 1)) {
+    while (0 > ind || ind > (int) (list.getLength() - 1)) {
         std::cout << std::endl << "Enter index[0:" << list.getLength() - 1 << "]:";
         std::cin >> ind;
         system("clear");
