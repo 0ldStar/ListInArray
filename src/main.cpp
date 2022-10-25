@@ -1,6 +1,5 @@
 #include "menu.h"
 
-//todo [1 1 8 1] is not working
 ListInArray<int> list;
 
 int main() {

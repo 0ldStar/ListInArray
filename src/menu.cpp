@@ -49,7 +49,7 @@ void getElementMenu() {
 }
 
 void fillRandom() {
-    std::srand(std::time(nullptr)); // use current time as seed for random generator
+    std::srand(std::time(nullptr));
     for (int i = 0; i < START_LENGTH; ++i) {
         list.push(1 + (int) (std::rand() / ((RAND_MAX + 1u) / 20)));
     }
