@@ -27,4 +27,6 @@ void changeValue();
 
 void deleteValueMenu();
 
+void iterMenu();
+
 #endif //ASD_1_MENU_H

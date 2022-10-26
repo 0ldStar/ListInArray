@@ -52,13 +52,12 @@ public:
             return *this;
         }
 
-        friend class ListInArray<T>;
+        int getInd() { return ind; }
 
         friend bool operator==(const MyIterator &a, const MyIterator &b) { return a.ind == b.ind; };
 
         friend bool operator!=(const MyIterator &a, const MyIterator &b) { return a.ind != b.ind; };
     private:
-
         int ind;
         pointer ptr;
     };

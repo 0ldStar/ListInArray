@@ -78,12 +78,10 @@ void ListInArray<T>::clear() {
     for (unsigned i = 0; i < arrayLen; ++i) {
         array[i].nextInd = i + 1;
         array[i].prevInd = i - 1;
+        array[i].data = getDefaultValue();
     }
     array[0].prevInd = -1;
     array[arrayLen - 1].nextInd = -1;
-    for (unsigned i = 0; i < START_LENGTH; ++i) {
-        array[i].data = getDefaultValue();
-    }
 }
 
 template<typename T>
@@ -146,7 +144,7 @@ int ListInArray<T>::push(T _data, unsigned ind) {
         for (auto it = begin(); it != end(); it++, j++) {
             laboriousness++;
             if (j == ind) {
-                array[curInd].nextInd = it.ind;
+                array[curInd].nextInd = it.getInd();
                 array[curInd].prevInd = it->prevInd;
                 array[it->prevInd].nextInd = curInd;
                 it->prevInd = curInd;
@@ -185,7 +183,7 @@ template<typename T>
 void ListInArray<T>::changeLinks(MyIterator<T> &i) {
     int nInd = i->nextInd;
     int pInd = i->prevInd;
-    int cInd = i.ind;
+    int cInd = i.getInd();
     if (pInd != -1)
         array[pInd].nextInd = nInd;
     else

@@ -5,9 +5,9 @@ ListInArray<int> list;
 int main() {
     system("clear");
     int command = -1;
-    while (command != 11) {
+    while (command != 12) {
         printf("\tThis is interactive menu for List in Array structure.\n"
-               "What you wanna do?\n"
+               "What you want to do?\n"
                "1) Fill the list.\n"
                "2) Get list length.\n"
                "3) Clear the list.\n"
@@ -18,7 +18,8 @@ int main() {
                "8) Delete value from the list.\n"
                "9) Print values.\n"
                "10) Get laboriousness.\n"
-               "11) Exit.\n"
+               "11) Iterator menu.\n"
+               "12) Exit.\n"
                ":");
         if (scanf("%d", &command) != 1) {
             while (getchar() != '\n') {}
@@ -73,6 +74,12 @@ int main() {
             case 10:
                 if (!list.isEmpty())
                     std::cout << "Laboriousness: " << list.getLaboriousness() << std::endl;
+                else
+                    std::cout << "List is empty." << std::endl;
+                break;
+            case 11:
+                if (!list.isEmpty())
+                    iterMenu();
                 else
                     std::cout << "List is empty." << std::endl;
                 break;
